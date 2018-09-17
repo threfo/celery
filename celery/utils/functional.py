@@ -275,7 +275,12 @@ def head_from_fun(fun, bound=False, debug=False):
     )
     if debug:  # pragma: no cover
         print(definition, file=sys.stderr)
-    namespace = {'__name__': fun.__module__}
+    if hasattr(fun, '__module__'):
+        namespace = {'__name__': fun.__module__}  
+    elif hasattr(fun, 'func_globals'):
+        namespace = {'__name__':  fun.func_globals['__name__']}
+    else:
+        namespace = {'__name__': 'cython'}
     # pylint: disable=exec-used
     # Tasks are rarely, if ever, created at runtime - exec here is fine.
     exec(definition, namespace)
