@@ -515,7 +515,9 @@ class Task(object):
             Also supports all keyword arguments supported by
             :meth:`kombu.Producer.publish`.
         """
-        if self.typing:
+        # if self.typing:
+        # cython bugfix: cython_function_or_method() missing 1 required positional argument: 'self'
+        if False:
             try:
                 check_arguments = self.__header__
             except AttributeError:  # pragma: no cover
